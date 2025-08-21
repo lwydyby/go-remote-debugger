@@ -16,26 +16,15 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    let disposable = vscode.commands.registerCommand('dlv-debug.startDebugging', () => {
-        // 从配置中读取 host、port 和 servername
-        const config = vscode.workspace.getConfiguration('dlvDebug');
-        const host = config.get('remoteHost', '10.37.14.157');
-        const port = config.get('remotePort', 40002);
-        const servername = config.get('serverName', 'jedi-apiserver'); // 修改默认值与debugProvider.ts一致
-        const cwd = config.get('cwd', '${workspaceFolder}'); // 修正默认值
-        const remotePath = config.get('remotePath', '${workspaceFolder}/' + servername); // 修正默认值
-
+     let disposable = vscode.commands.registerCommand('dlv-debug.startDebugging', () => {
+        // 直接启动调试，让调试配置提供者处理配置
         vscode.debug.startDebugging(undefined, {
-            name: 'dlv-remote',
+            name: 'Launch and Attach to Remote Server',
             type: 'dlv-remote',
-            request: 'launch',
-            host: host,
-            port: port,
-            servername: servername,
-            remotePath: remotePath,
-            cwd: cwd
+            request: 'launch'
         });
     });
+
 
     context.subscriptions.push(disposable);
 }

@@ -46,16 +46,6 @@
 
 ## 使用方法
 
-### 配置插件
-
-在VSCode设置中配置以下参数：
-
-- `dlvDebug.remoteHost`: 远程服务器IP地址
-- `dlvDebug.remotePort`: 远程调试端口（默认40002）
-- `dlvDebug.serverName`: 服务器名称和目录名
-- `dlvDebug.serverpath`: 远程服务器上存放二进制文件的目录
-- `dlvDebug.mainPath`: main函数所在目录，相对于工作目录
-- `dlvDebug.isSubProject`: 是否为子项目
 
 ### 启动调试
 
@@ -79,19 +69,6 @@
 
 ## 配置示例
 
-### settings.json
-
-```json
-{
-  "dlvDebug.remoteHost": "10.37.14.157",
-  "dlvDebug.remotePort": 40002,
-  "dlvDebug.serverName": "jedi-apiserver",
-  "dlvDebug.serverpath": "/root/debug",
-  "dlvDebug.mainPath": "./apiserver/cmd",
-  "dlvDebug.isSubProject": false
-}
-```
-
 ### launch.json
 
 ```json
@@ -102,10 +79,14 @@
       "name": "Launch and Attach to Remote Server",
       "type": "dlv-remote",
       "request": "launch",
-      "host": "${config:dlvDebug.remoteHost}",
-      "port": "${config:dlvDebug.remotePort}",
-      "remotePath": "${config:dlvDebug.serverpath}",
-      "cwd": "${workspaceFolder}"
+      "remotePath": "${workspaceFolder}/apiserver", // 使用本地代码路径
+      "port": 40002,
+      "servername": "apiserver",
+      "serverPath": "/root/debug",
+      "isSubProject": true,
+      "host": "10.37.14.157",
+      "mainPath": "apiserver/cmd",
+      "cwd": "${workspaceFolder}/apiserver"
     }
   ]
 }
@@ -114,7 +95,7 @@
 ## 要求
 
 - VSCode 1.60.0 或更高版本
-- 远程服务器上安装了dlv调试器
+- 远程服务器上安装了dlv调试器,且目录为/usr/local/bin/dlv 
 - 本地机器能够通过SSH无密码登录到远程服务器
 - Go开发环境
 

@@ -8,8 +8,8 @@
     "README.md"
   ],
   "description": "A VSCode extension for remote Go debugging with dlv on remote servers",
-  "version": "1.0.0",
-  "publisher": "liwei.0831",
+  "version": "1.0.1",
+  "publisher": "liwei0831",
   "icon": "images/icon.png",
   "keywords": [
     "go",
@@ -20,7 +20,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/liwei.0831/go-remote-debugger.git"
+    "url": "https://github.com/lwydyby/go-remote-debugger.git"
   },
   "galleryBanner": {
     "color": "#007acc",
@@ -72,6 +72,18 @@
               "cwd": {
                 "type": "string",
                 "description": "Current working directory"
+              },
+              "mainPath": {
+                "type": "string",
+                "description": "Path to main function directory, relative to workspace"
+              },
+              "isSubProject": {
+                "type": "boolean",
+                "description": "Whether this is a sub-project. Sub-projects use workspace/servername as project directory"
+              },
+              "serverPath": {
+                "type": "string",
+                "description": "Remote server path for binary deployment"
               }
             }
           }
@@ -81,58 +93,21 @@
             "name": "Server Remote Debug",
             "type": "dlv-remote",
             "request": "launch",
-            "host": "${config:dlvDebug.remoteHost}",
-            "port": "${config:dlvDebug.remotePort}",
-            "servername": "${config:dlvDebug.serverName}",
-            "remotePath": "${config:dlvDebug.serverpath}",
+            "host": "",
+            "port": 40002,
+            "servername": "",
+            "remotePath": "",
+            "mainPath": "${workspaceFolder}/cmd",
+            "isSubProject": "",
             "cwd": "${workspaceFolder}"
           }
         ]
       }
     ],
-    "configuration": [
-      {
-        "title": "Go Remote Debugger",
-        "properties": {
-          "dlvDebug.remoteHost": {
-            "type": "string",
-            "default": "10.37.14.157",
-            "description": "Remote server IP address for debugging",
-            "order": 1
-          },
-          "dlvDebug.remotePort": {
-            "type": "number",
-            "default": 40002,
-            "description": "Debug port for the remote dlv debugger",
-            "order": 2
-          },
-          "dlvDebug.serverName": {
-            "type": "string",
-            "default": "jedi-apiserver",
-            "description": "Server name and directory name",
-            "order": 3
-          },
-          "dlvDebug.serverpath": {
-            "type": "string",
-            "default": "/root/debug",
-            "description": "Remote server path for binary deployment",
-            "order": 4
-          },
-          "dlvDebug.mainPath": {
-            "type": "string",
-            "default": "./apiserver/cmd",
-            "description": "Path to main function directory, relative to workspace",
-            "order": 5
-          },
-          "dlvDebug.isSubProject": {
-            "type": "boolean",
-            "default": false,
-            "description": "Whether this is a sub-project. Sub-projects use workspace/servername as project directory",
-            "order": 6
-          }
-        }
-      }
-    ]
+    "configuration": {
+      "title": "Go Remote Debugger",
+      "properties": {}
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

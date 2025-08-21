@@ -9,21 +9,10 @@ export class DlvDebugProvider implements vscode.DebugConfigurationProvider {
 		if (!config.type && !config.request && !config.name) {
 			const editor = vscode.window.activeTextEditor;
 			if (editor && editor.document.languageId === 'go') {
-				const debugConfig = vscode.workspace.getConfiguration('dlvDebug');
-				const host = debugConfig.get('remoteHost', '10.37.14.157');
-				const port = debugConfig.get('remotePort', 40002);
-				const servername = debugConfig.get('serverName', 'apiserver');
-				const remotePath = debugConfig.get('remotePath', '');
-				const cwd = debugConfig.get('cwd', '');
 				config.type = 'dlv-remote';
 				config.mode = 'remote';
 				config.name = 'Server Remote Debug';
 				config.request = 'launch';  // 改为launch
-				config.host = host;
-				config.port = port;
-				config.servername = servername;
-				config.remotePath = remotePath;
-				config.cwd = cwd;
 			}
 		}
 
@@ -54,13 +43,12 @@ export class DlvDebugProvider implements vscode.DebugConfigurationProvider {
 	}
 
 	private async buildAndDeploy(config: vscode.DebugConfiguration): Promise<boolean> {
-		const debugConfig = vscode.workspace.getConfiguration('dlvDebug');
-		const host = debugConfig.get('remoteHost', '10.37.14.157');
-		const port = debugConfig.get('remotePort', 40002);
-		const servername = debugConfig.get('serverName', 'apiserver');
-		const serverpath = debugConfig.get('serverpath', '/root/debug');
-		const isSubProject = debugConfig.get('isSubProject', false);
-		const cwdRelativePath = debugConfig.get('mainPath', './cmd');
+		const host = config.host;
+		const port = config.port;
+		const servername = config.servername;
+		const serverpath = config.serverPath;
+		const isSubProject = config.isSubProject;
+		const cwdRelativePath = config.mainPath;
 		 
 		// 获取工作区根路径
 		const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
@@ -155,9 +143,9 @@ export class DlvDebugProvider implements vscode.DebugConfigurationProvider {
 
 	// 在 cleanupRemote 方法中也添加参数类型
 	private async cleanupRemote(config: vscode.DebugConfiguration): Promise<void> {
-	    const debugConfig = vscode.workspace.getConfiguration('dlvDebug');
-	    const host = config.host || debugConfig.get('remoteHost', '10.37.14.157');
-	    const servername = config.servername || debugConfig.get('serverName', 'apiserver');
+
+	    const host = config.host
+	    const servername = config.servername
 	    
 	    const cleanupCmd = `ssh -o "User=root" ${host} "pkill -9 ${servername}; pkill -9 dlv"`;
 	    
