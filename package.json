@@ -1,0 +1,147 @@
+{
+  "name": "go-remote-debugger",
+  "displayName": "Go Remote Debugger",
+  "files": [
+    "images/icon.png",
+    "out/",
+    "package.json",
+    "README.md"
+  ],
+  "description": "A VSCode extension for remote Go debugging with dlv on remote servers",
+  "version": "1.0.0",
+  "publisher": "liwei.0831",
+  "icon": "images/icon.png",
+  "keywords": [
+    "go",
+    "debugging",
+    "remote",
+    "dlv",
+    "golang"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liwei.0831/go-remote-debugger.git"
+  },
+  "galleryBanner": {
+    "color": "#007acc",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onDebug",
+    "onCommand:dlv-debug.startDebugging"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "dlv-debug.startDebugging",
+        "title": "Start Server Remote Debugging"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "dlv-remote",
+        "label": "Server Remote Debug",
+        "program": "./out/debugProvider.js",
+        "configurationAttributes": {
+          "launch": {
+            "required": [],
+            "properties": {
+              "host": {
+                "type": "string",
+                "description": "Remote host to connect to"
+              },
+              "port": {
+                "type": "number",
+                "description": "Port to connect to"
+              },
+              "servername": {
+                "type": "string",
+                "description": "Server name for Server"
+              },
+              "remotePath": {
+                "type": "string",
+                "description": "Remote path to the binary"
+              },
+              "cwd": {
+                "type": "string",
+                "description": "Current working directory"
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "name": "Server Remote Debug",
+            "type": "dlv-remote",
+            "request": "launch",
+            "host": "${config:dlvDebug.remoteHost}",
+            "port": "${config:dlvDebug.remotePort}",
+            "servername": "${config:dlvDebug.serverName}",
+            "remotePath": "${config:dlvDebug.serverpath}",
+            "cwd": "${workspaceFolder}"
+          }
+        ]
+      }
+    ],
+    "configuration": [
+      {
+        "title": "Go Remote Debugger",
+        "properties": {
+          "dlvDebug.remoteHost": {
+            "type": "string",
+            "default": "10.37.14.157",
+            "description": "Remote server IP address for debugging",
+            "order": 1
+          },
+          "dlvDebug.remotePort": {
+            "type": "number",
+            "default": 40002,
+            "description": "Debug port for the remote dlv debugger",
+            "order": 2
+          },
+          "dlvDebug.serverName": {
+            "type": "string",
+            "default": "jedi-apiserver",
+            "description": "Server name and directory name",
+            "order": 3
+          },
+          "dlvDebug.serverpath": {
+            "type": "string",
+            "default": "/root/debug",
+            "description": "Remote server path for binary deployment",
+            "order": 4
+          },
+          "dlvDebug.mainPath": {
+            "type": "string",
+            "default": "./apiserver/cmd",
+            "description": "Path to main function directory, relative to workspace",
+            "order": 5
+          },
+          "dlvDebug.isSubProject": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this is a sub-project. Sub-projects use workspace/servername as project directory",
+            "order": 6
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@types/vscode": "^1.60.0",
+    "typescript": "^5.9.2"
+  }
+}
