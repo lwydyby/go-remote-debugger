@@ -3,9 +3,11 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 一个用于在远程服务器上调试Go程序的VSCode扩展插件，基于dlv调试器。
+
 ![Go Remote Debugger](./images/demo.gif)
 
 ## 功能特性
+
 - 🚀 一键构建和部署Go应用程序到远程服务器
 - 🐞 使用dlv调试器进行远程调试
 - ⚙️ 可配置的远程主机、端口和路径设置
@@ -92,7 +94,10 @@
       "isSubProject": true,
       "host": "10.37.14.157",
       "mainPath": "apiserver/cmd",
-      "cwd": "${workspaceFolder}/apiserver"
+      "cwd": "${workspaceFolder}/apiserver",
+      "env": ["GO111MODULE=on"],
+      "args": "-c /etc/volcstack/jedi-apiserver.yml",
+      "buildArgs": "--tags=debug"
     }
   ]
 }
