@@ -3,7 +3,8 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 一个用于在远程服务器上调试Go程序的VSCode扩展插件，基于dlv调试器。
-https://github.com/user-attachments/assets/83b49400-8032-4f79-a91e-cfc54e96c67f
+
+![Go Remote Debugger](https://github.com/user-attachments/assets/83b49400-8032-4f79-a91e-cfc54e96c67f)
 
 ## 功能特性
 - 🚀 一键构建和部署Go应用程序到远程服务器
