@@ -8,7 +8,7 @@
     "README.md"
   ],
   "description": "A VSCode extension for remote Go debugging with dlv on remote servers",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "publisher": "liwei0831",
   "icon": "images/icon.png",
   "keywords": [
@@ -84,6 +84,18 @@
               "serverPath": {
                 "type": "string",
                 "description": "Remote server path for binary deployment"
+              },
+              "args": {
+                "type": "string",
+                "description": "Arguments to pass to the program"
+              },
+              "env": {
+                "type": "array",
+                "description": "Environment variables to set"
+              },
+              "buildArgs":{
+                "type": "string",
+                "description": "Build arguments"
               }
             }
           }
